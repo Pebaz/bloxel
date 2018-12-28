@@ -14,5 +14,8 @@ setup(
 	install_requires=[
 		'docopt',
         'PIL'
-	]
+	],
+    scripts=[
+        
+    ]
 )
