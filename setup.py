@@ -15,7 +15,5 @@ setup(
 		'docopt',
         'PIL'
 	],
-    scripts=[
-        
-    ]
+    scripts=['bloxel.bat']
 )
