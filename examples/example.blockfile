@@ -1,0 +1,9 @@
+0 # Bloxel1
+1 # Bloxel2
+2 # Bloxel3
+3 # Bloxel4
+0 1 # Bloxel5
+0 2 # Bloxel6
+0 1 2 # Bloxel7
+0 1 2 3 # Bloxel8
+0 1 2 3 2 1 # Bloxel9

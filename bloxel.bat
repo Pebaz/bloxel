@@ -1,1 +1,1 @@
-python -m bloxel.main %*
+python -m bloxel.iso %*
