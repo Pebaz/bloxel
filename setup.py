@@ -13,7 +13,7 @@ setup(
 	packages=['bloxel'],
 	install_requires=[
 		'docopt',
-        'PIL'
+        'PILLOW'
 	],
     scripts=['bloxel.bat']
 )
