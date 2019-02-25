@@ -122,7 +122,7 @@ Generate these four blocks and put them in `examples/TexMap/`
 bloxel -t examples/res/Texture-Map.png 2 2 examples/example.blockfile -o examples/blockfile-out
 ```
 
-A blockfile can enable a massive number of explicitly-named blocks to be created easily.  The need for this automation is because a texture map is literally an image that contains a grid of sub-images that get turned into bloxels. The generated bloxels have randomly-generated names so there must be a better way to name them.
+A blockfile can enable a massive number of explicitly-named blocks to be created easily.  The need for this automation is because a texture map is literally an image that contains a grid of sub-images that get turned into bloxels. The generated bloxels have randomly-generated names so there must be a better way to name them. In addition, each sub-image is turned into a bloxel with that image being used for each side. Complex multi-image bloxels can be created easily by putting them into the blockfile to be read in one by one and generated.
 
 Example blockfile syntax:
 
