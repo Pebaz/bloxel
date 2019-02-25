@@ -116,5 +116,39 @@ Generate these four blocks and put them in `examples/TexMap/`
 
 <img src="examples/TexMap/Bloxel-RzZDMSZM-N.png" width=64 />
 
+### BlockFile
 
+```sh
+bloxel -t examples/res/Texture-Map.png 2 2 examples/example.blockfile -o examples/blockfile-out
+```
 
+A blockfile can enable a massive number of explicitly-named blocks to be created easily.  The need for this automation is because a texture map is literally an image that contains a grid of sub-images that get turned into bloxels. The generated bloxels have randomly-generated names so there must be a better way to name them.
+
+Example blockfile syntax:
+
+```python
+0 # Grass
+1 # Dirt
+2 # Concrete
+3 # Water
+0 1 # Piston
+0 2 # Oven
+0 1 2 # Stove
+0 1 2 3 # CrackedStone1
+0 1 2 3 2 1 # CrackedStone2
+```
+
+Each line can be thought of as a different invocation of the CLI. The arguments are the same in regards to the chosen images and the name of the bloxel. Each number corresponds to the index of the image within the texture map. Everything after the `#` is the name of the bloxel (whitespace stripped off of the left and right sides). Lines with no `#` are given randomly-generated strings as names. If this is the input image:
+
+<img src="examples/Sample.png" width=128 />
+
+This is the sequence of the indexes go from left to right and top to bottom (just like reading):
+
+```python
+0 (Rune)
+1 (Dirt)
+2 (Colorful Tile)
+3 (Stone Tile)
+```
+
+The result of a texture map + blockfile combo is a number of bloxels that have a name rather than being randomly-generated.
