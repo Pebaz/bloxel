@@ -12,8 +12,8 @@ setup(
 	author='Samuel Wilder',
 	packages=['bloxel'],
 	install_requires=[
-		'docopt',
-        'PILLOW'
+		'Pillow==5.3.0',
+        'docopt==0.6.2'
 	],
     scripts=['bloxel.bat']
 )

@@ -19,6 +19,21 @@ Resulting in this image:
 
 Note that the sides have been properly shaded.
 
+## Installation
+
+```
+pip install git+https://github.com/Pebaz/bloxel.git
+```
+
+Or if done via Git:
+
+```
+git clone https://github.com/Pebaz/bloxel.git
+pip install -r requirements.txt
+```
+
+
+
 
 
 ## Usage
