@@ -47,10 +47,10 @@ bloxel -h | --help | -v | --version
 Bloxel is also designed to be imported as a library when needed:
 
 ```python
-from bloxel import iso
+import bloxel
 
 texture_size = 4
-iso = bloxel.Iso(texture_size)
+iso = bloxel.iso.Iso(texture_size)
 grass = iso.get_texture('examples/res/Grass.png')
 direction = bloxel.Directions.NORTH
 bloxel = iso.get_scalar_bloxel(direction, *([grass] * 6))
