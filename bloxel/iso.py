@@ -87,6 +87,7 @@ __all__ = [
 import sys # Command line arguments
 import random # Filenames
 from pathlib import Path # For outputting images and naming ambiguous outputs
+from functools import lru_cache # Cache inputs/outputs of functions
 from docopt import docopt # CLI creation tool
 from PIL import Image, ImageDraw, ImageOps
 from . blockfile import *
@@ -680,6 +681,7 @@ class Cornerstone:
     """
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def get(color=(255, 255, 255, 255), dir=Directions.NORTH):
         """
         Returns a cornerstone using a given color and direction.
@@ -738,6 +740,7 @@ class Cornerstone:
         return tint_image(img, color)
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def get_left(color=(255, 255, 255, 255), dir=Directions.NORTH):
         """
         Returns the left side of a cornerstone using a given color/direction.
@@ -776,6 +779,7 @@ class Cornerstone:
         return tint_image(img, color)
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def get_right(color=(255, 255, 255, 255), dir=Directions.NORTH):
         """
         Returns the right side of a cornerstone using a given color/direction.
@@ -814,6 +818,7 @@ class Cornerstone:
         return tint_image(img, color)
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def get_top(color=(255, 255, 255, 255), dir=Directions.NORTH):
         """
         Returns the top side of a cornerstone using the given color/direction.
@@ -908,6 +913,7 @@ class Shade:
     SIDE_SHADING = (0, 4, 1, 3, 2, 2)
 
     @staticmethod
+    @lru_cache(maxsize=None)
     def get_shade(bloxel_side):
         """
         Args:
@@ -989,6 +995,7 @@ class IsoCoors:
 
         return self.coors[xyz]
 
+    @lru_cache(maxsize=None)
     def get(self, x, y, z):
         """
         Retrieve isometric screen coodinates from the given 3D coordinates.
@@ -1021,6 +1028,7 @@ class IsoCoors:
                     tmp[(x, y, z)] = self.__get_pos_from_vec3(x, y, z)
         self.coors = tmp
 
+    @lru_cache(maxsize=None)
     def __get_pos_from_vec3(self, x, y, z):
         """
         Gets 2D screen coordinates from a vector3.
@@ -1107,6 +1115,7 @@ def draw_image(x, y, img1, img2):
                         img2.putpixel((new_x, new_y), px)
 
 
+@lru_cache(maxsize=None)
 def lighten(color, shades=1):
     """
     Lightens a given color by a number of shades.
@@ -1122,6 +1131,7 @@ def lighten(color, shades=1):
     return min(r + shades, 255), min(g + shades, 255), min(b + shades, 255), a
 
 
+@lru_cache(maxsize=None)
 def darken(color, shades=1):
     """
     Darkens a given color by a number of shades.
@@ -1137,6 +1147,7 @@ def darken(color, shades=1):
     return max(r - shades, 0), max(g - shades, 0), max(b - shades, 0), a
 
 
+@lru_cache(maxsize=None)
 def blend_color(a, b):
     """
     Blends two colors together by their alpha values.
