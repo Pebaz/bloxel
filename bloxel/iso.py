@@ -1204,7 +1204,8 @@ def draw_pixel(x, y, pixel, img):
 
 
 
-if __name__ == '__main__':
+
+def main(args=None):
     # Gather the command line arguments dictionary
     result = docopt(__doc__)
 
@@ -1321,3 +1322,7 @@ if __name__ == '__main__':
             result['<front>'],
             result['<back>']
         )
+
+
+if __name__ == '__main__':
+    main()

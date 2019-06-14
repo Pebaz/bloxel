@@ -13,7 +13,11 @@ setup(
 	packages=['bloxel'],
 	install_requires=[
 		'Pillow==5.3.0',
-        'docopt==0.6.2'
+		'docopt==0.6.2'
 	],
-    scripts=['bloxel.bat']
+	entry_points={
+		'console_scripts' : [
+			'bloxel=bloxel.iso:main'
+		]
+	}
 )
