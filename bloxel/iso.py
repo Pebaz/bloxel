@@ -25,6 +25,7 @@ Usage:
         [<block-file>]
     {0} -c <filename> <red> <green> <blue> [<alpha>]
         [--width=<width> --height=<height>]
+    {0} [-o <out-path>] [-a | ([-nsew])] -B <blox-file>
     {0} -h | --help | -v | --version
 
 Options:
@@ -37,6 +38,8 @@ Options:
                     The texture map to use with batch processing
     -b <blockname> --block=<blockname>
                     The name of the output file with no extension
+    -B <blox-file> --bloxel=<blox-file>
+                    The filename of the bloxel file to render
     -c <filename> --create-texture=<filename>
                     Use the provided color to generate a plain texture filled
                     with said color
@@ -1262,6 +1265,10 @@ def main(args=None):
             int(result['--width']),
             int(result['--height']),
         )
+
+    # Bloxel File with colors/positions of every bloxel in chunk
+    elif result['--bloxel']:
+        print('BLOX-FILE!')
 
     # Texture map with possible blockfile
     elif result['--texture']:
