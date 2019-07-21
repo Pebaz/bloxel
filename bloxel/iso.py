@@ -25,7 +25,7 @@ Usage:
         [<block-file>]
     {0} -c <filename> <red> <green> <blue> [<alpha>]
         [--width=<width> --height=<height>]
-    {0} [-o <out-path>] [-a | ([-nsew])] -B <blox-file>
+    {0} [-o <out-path>] [-a | ([-nsew])] -b <blockname> -B <blox-file>
     {0} -h | --help | -v | --version
 
 Options:
@@ -372,6 +372,17 @@ class CLI:
                 iso.save(out, i, blockname if blockname else infile.stem,
                     out_path)
 
+    @staticmethod
+    def output_multipart_bloxel(out_path, blockname, dirs, bloxfile):
+        iso = Iso(4)
+
+        for i in Directions.ALL:
+            if dirs[i]:
+                out = iso.get_multipart_bloxel(i, bloxfile)
+                print(out)
+                #iso.save(out, i, blockname, out_path)
+        
+
 
 class Iso:
     """
@@ -594,6 +605,10 @@ class Iso:
             draw_image(x + 1, y - 1, self.table_top.get(pxu, dir), canvas)
 
         return canvas
+
+    def get_multipart_bloxel(self, dir, bloxfile):
+        # cls; ./bloxel -a -b my-block -B foo
+        return Image.new('RGBA', (64, 64))
 
     def determine_visible_sides(self, dir, up, down, left, right, front, back):
         """
@@ -1247,6 +1262,15 @@ def main(args=None):
         print(__doc__[:LOGO_ISO_BLOCK_END_INDEX])
         print('\nIsometric Bloxel Generator\nVersion 0.0.1')
 
+    # Bloxel File with colors/positions of every bloxel in chunk
+    elif result['--bloxel']:
+        CLI.output_multipart_bloxel(
+            out_path,
+            result['--block'],
+            dirs,
+            result['--bloxel']
+        )
+
     # Create texture filled with specified color
     elif result['--create-texture']:
         if not result['<alpha>']:
@@ -1265,10 +1289,6 @@ def main(args=None):
             int(result['--width']),
             int(result['--height']),
         )
-
-    # Bloxel File with colors/positions of every bloxel in chunk
-    elif result['--bloxel']:
-        print('BLOX-FILE!')
 
     # Texture map with possible blockfile
     elif result['--texture']:
