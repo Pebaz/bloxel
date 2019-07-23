@@ -374,15 +374,18 @@ class CLI:
 
     @staticmethod
     def output_multipart_bloxel(out_path, blockname, dirs, bloxfile):
+        """
+        Generate a multipart bloxel using a bloxel-file containing XYZ
+        coordinates and RGBA color values.
+        """
         iso = Iso(4)
 
         for i in Directions.ALL:
             if dirs[i]:
                 out = iso.get_multipart_bloxel(i, bloxfile)
-                print(out)
-                #iso.save(out, i, blockname, out_path)
+                #print(out)
+                iso.save(out, i, blockname, out_path)
         
-
 
 class Iso:
     """
@@ -611,23 +614,29 @@ class Iso:
         canvas = Image.new('RGBA', (64, 64))
 
         with open(bloxfile) as file:
-            for line in file.readlines():
-                x, y, z, r, g, b, a = [int(float(i)) for i in line.split()]
 
-                ix, iy = self.coors.get(
-                    x, z, y -23
-                )
+            # Sort bloxels by x + y - z coordinates (for layered drawing)
+            bloxels = sorted([
+                tuple(int(float(i)) for i in line.split())
+                for line in file.readlines()
+            ], key=lambda b: b[0] + b[1] - b[2], reverse=True)
 
-                clr = (r, g, b, a)
-                # draw_image(ix + 1, iy - 1, self.table_top.get(clr, dir), canvas)
-                # draw_image(ix, iy + 46, self.table_left.get(clr, dir), canvas)
-                # draw_image(ix, iy + 1, self.table_right.get(clr, dir), canvas)
+        for bloxel in bloxels:
+            x, y, z, r, g, b, a = bloxel
 
-                draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
-                draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
-                draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
+            ix, iy = self.coors.get(
+                x, z, y -23
+            )
 
-        canvas.save('fooo.png')
+            clr = (r, g, b, a)
+            # draw_image(ix + 1, iy - 1, self.table_top.get(clr, dir), canvas)
+            # draw_image(ix, iy + 46, self.table_left.get(clr, dir), canvas)
+            # draw_image(ix, iy + 1, self.table_right.get(clr, dir), canvas)
+
+            draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
+            draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
+            draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
+
         return canvas
 
     def determine_visible_sides(self, dir, up, down, left, right, front, back):
