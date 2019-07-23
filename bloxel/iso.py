@@ -624,14 +624,14 @@ class Iso:
         for bloxel in bloxels:
             x, y, z, r, g, b, a = bloxel
 
+            for i in range(dir):
+                # TODO(pebaz): Do this before sorting
+                x, z = Iso.TEX_WIDTH - z, x
+
             ix, iy = self.coors.get(
-                x, z, y -23
-            )
+                x, z, y -23)
 
             clr = (r, g, b, a)
-            # draw_image(ix + 1, iy - 1, self.table_top.get(clr, dir), canvas)
-            # draw_image(ix, iy + 46, self.table_left.get(clr, dir), canvas)
-            # draw_image(ix, iy + 1, self.table_right.get(clr, dir), canvas)
 
             draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
             draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
