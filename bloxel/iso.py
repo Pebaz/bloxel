@@ -618,9 +618,15 @@ class Iso:
                     x, z, y -23
                 )
 
-                print(ix, iy)
-                top = self.table_top.get((r, g, b, a), dir)
-                draw_image(ix + 1, iy - 1, top, canvas)
+                clr = (r, g, b, a)
+                # draw_image(ix + 1, iy - 1, self.table_top.get(clr, dir), canvas)
+                # draw_image(ix, iy + 46, self.table_left.get(clr, dir), canvas)
+                # draw_image(ix, iy + 1, self.table_right.get(clr, dir), canvas)
+
+                draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
+                draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
+                draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
+
         canvas.save('fooo.png')
         return canvas
 
