@@ -608,7 +608,21 @@ class Iso:
 
     def get_multipart_bloxel(self, dir, bloxfile):
         # cls; ./bloxel -a -b my-block -B foo
-        return Image.new('RGBA', (64, 64))
+        canvas = Image.new('RGBA', (64, 64))
+
+        with open(bloxfile) as file:
+            for line in file.readlines():
+                x, y, z, r, g, b, a = [int(float(i)) for i in line.split()]
+
+                ix, iy = self.coors.get(
+                    x, z, y -23
+                )
+
+                print(ix, iy)
+                top = self.table_top.get((r, g, b, a), dir)
+                draw_image(ix + 1, iy - 1, top, canvas)
+        canvas.save('fooo.png')
+        return canvas
 
     def determine_visible_sides(self, dir, up, down, left, right, front, back):
         """
