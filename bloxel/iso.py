@@ -610,9 +610,16 @@ class Iso:
         return canvas
 
     def get_multipart_bloxel(self, dir, bloxfile):
-        # cls; ./bloxel -a -b my-block -B foo
-        canvas = Image.new('RGBA', (64, 64))
+        """
+        Return a bloxel texture from the supplied bloxel filename.
 
+        Args:
+            dir(Direction): the direction to rotate to.
+            bloxfile(str): path to the bloxfile containing the XYZRGBA data.
+
+        Return:
+            An Image that contains the Isometric representation of the bloxel.
+        """
         with open(bloxfile) as file:
 
             # Sort bloxels by x + y - z coordinates (for layered drawing)
@@ -632,6 +639,8 @@ class Iso:
 
             elif dir == Directions.WEST:
                 bloxels.sort(key=lambda b: b[0] + b[2] - b[1], reverse=True)
+
+        canvas = Image.new('RGBA', (64, 64))
 
         for bloxel in bloxels:
             x, y, z, r, g, b, a = bloxel
