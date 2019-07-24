@@ -382,8 +382,12 @@ class CLI:
 
         for i in Directions.ALL:
             if dirs[i]:
-                out = iso.get_multipart_bloxel(i, bloxfile)
-                #print(out)
+                with open(bloxfile) as file:
+                    xyzrgba_data = [
+                        tuple(int(float(i)) for i in line.split())
+                        for line in file.readlines()
+                    ]
+                out = iso.get_multipart_bloxel(i, xyzrgba_data)
                 iso.save(out, i, blockname, out_path)
         
 
@@ -609,36 +613,30 @@ class Iso:
 
         return canvas
 
-    def get_multipart_bloxel(self, dir, bloxfile):
+    def get_multipart_bloxel(self, dir, bloxels):
         """
         Return a bloxel texture from the supplied bloxel filename.
 
         Args:
             dir(Direction): the direction to rotate to.
-            bloxfile(str): path to the bloxfile containing the XYZRGBA data.
+            xyzrgba_data(list): list of tuples containing interlieved xyz/rgba.
 
         Return:
             An Image that contains the Isometric representation of the bloxel.
         """
-        with open(bloxfile) as file:
+        # Sort bloxels by x + y - z coordinates (for layered drawing)
 
-            # Sort bloxels by x + y - z coordinates (for layered drawing)
-            bloxels = [
-                tuple(int(float(i)) for i in line.split())
-                for line in file.readlines()
-            ]
+        if dir == Directions.NORTH:
+            bloxels.sort(key=lambda b: b[0] + b[1] - b[2], reverse=True)
 
-            if dir == Directions.NORTH:
-                bloxels.sort(key=lambda b: b[0] + b[1] - b[2], reverse=True)
+        elif dir == Directions.EAST:
+            bloxels.sort(key=lambda b: b[2] + b[0] - b[1], reverse=False)
 
-            elif dir == Directions.EAST:
-                bloxels.sort(key=lambda b: b[2] + b[0] - b[1], reverse=False)
+        elif dir == Directions.SOUTH:
+            bloxels.sort(key=lambda b: b[1] + b[2] - b[0], reverse=True)
 
-            elif dir == Directions.SOUTH:
-                bloxels.sort(key=lambda b: b[1] + b[2] - b[0], reverse=True)
-
-            elif dir == Directions.WEST:
-                bloxels.sort(key=lambda b: b[0] + b[2] - b[1], reverse=True)
+        elif dir == Directions.WEST:
+            bloxels.sort(key=lambda b: b[0] + b[2] - b[1], reverse=True)
 
         canvas = Image.new('RGBA', (64, 64))
 
