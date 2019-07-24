@@ -633,15 +633,6 @@ class Iso:
             elif dir == Directions.WEST:
                 bloxels.sort(key=lambda b: b[0] + b[2] - b[1], reverse=True)
 
-        for x in range(16):
-            for y in range(16):
-                ix, iy = self.coors.get(x, y, 0 -23)
-                ix += 1; iy -= 1
-                clr = (127 + x * 8, 127 + y * 8, 127)
-                draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
-                draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
-                draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
-
         for bloxel in bloxels:
             x, y, z, r, g, b, a = bloxel
 
