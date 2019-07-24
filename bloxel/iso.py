@@ -616,10 +616,31 @@ class Iso:
         with open(bloxfile) as file:
 
             # Sort bloxels by x + y - z coordinates (for layered drawing)
-            bloxels = sorted([
+            bloxels = [
                 tuple(int(float(i)) for i in line.split())
                 for line in file.readlines()
-            ], key=lambda b: b[0] + b[1] - b[2], reverse=True)
+            ]
+
+            if dir == Directions.NORTH:
+                bloxels.sort(key=lambda b: b[0] + b[1] - b[2], reverse=True)
+
+            elif dir == Directions.EAST:
+                bloxels.sort(key=lambda b: b[2] + b[0] - b[1], reverse=False)
+
+            elif dir == Directions.SOUTH:
+                bloxels.sort(key=lambda b: b[1] + b[2] - b[0], reverse=True)
+
+            elif dir == Directions.WEST:
+                bloxels.sort(key=lambda b: b[0] + b[2] - b[1], reverse=True)
+
+        for x in range(16):
+            for y in range(16):
+                ix, iy = self.coors.get(x, y, 0 -23)
+                ix += 1; iy -= 1
+                clr = (127 + x * 8, 127 + y * 8, 127)
+                draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
+                draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
+                draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
 
         for bloxel in bloxels:
             x, y, z, r, g, b, a = bloxel
@@ -628,8 +649,19 @@ class Iso:
                 # TODO(pebaz): Do this before sorting
                 x, z = Iso.TEX_WIDTH - z, x
 
-            ix, iy = self.coors.get(
-                x, z, y -23)
+            ix, iy = self.coors.get(x, z, y -23)
+
+            if dir == Directions.NORTH:
+                ix += 1; iy -= 1
+
+            elif dir == Directions.EAST:
+                ix -= 1; iy -= 0
+
+            elif dir == Directions.SOUTH:
+                ix -= 3; iy -= 1
+
+            elif dir == Directions.WEST:
+                ix -= 1; iy -= 2
 
             clr = (r, g, b, a)
 
