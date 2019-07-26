@@ -663,9 +663,9 @@ class Iso:
 
             clr = (r, g, b, a)
 
-            draw_image(ix - 1, iy + 1, self.table_left.get((0, 255, 0, 255), dir), canvas)
-            draw_image(ix + 1, iy + 1, self.table_right.get((0, 0, 255, 255), dir), canvas)
-            draw_image(ix, iy, self.table_top.get((255, 0, 0, 255), dir), canvas)
+            draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
+            draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
+            draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
 
         return canvas
 
