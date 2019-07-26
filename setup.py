@@ -7,7 +7,7 @@ from distutils.core import setup
 
 setup(
 	name='bloxel',
-	version='1.2',
+	version='1.2.1',
 	description='Isometric Voxel Generator',
 	author='Samuel Wilder',
 	packages=['bloxel'],

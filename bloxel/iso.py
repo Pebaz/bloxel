@@ -627,13 +627,13 @@ class Iso:
         # Sort bloxels by x + y - z coordinates (for layered drawing)
 
         if dir == Directions.NORTH:
-            bloxels.sort(key=lambda b: b[0] + b[1] - b[2], reverse=True)
+            bloxels.sort(key=lambda b: b[0] - b[1] - b[2], reverse=True)
 
         elif dir == Directions.EAST:
-            bloxels.sort(key=lambda b: b[2] + b[0] - b[1], reverse=False)
+            bloxels.sort(key=lambda b: b[2] + b[0] + b[1], reverse=False)
 
         elif dir == Directions.SOUTH:
-            bloxels.sort(key=lambda b: b[1] + b[2] - b[0], reverse=True)
+            bloxels.sort(key=lambda b: b[0] + b[1] - b[2], reverse=False)
 
         elif dir == Directions.WEST:
             bloxels.sort(key=lambda b: b[0] + b[2] - b[1], reverse=True)
@@ -663,9 +663,9 @@ class Iso:
 
             clr = (r, g, b, a)
 
-            draw_image(ix - 1, iy + 1, self.table_left.get(clr, dir), canvas)
-            draw_image(ix + 1, iy + 1, self.table_right.get(clr, dir), canvas)
-            draw_image(ix, iy, self.table_top.get(clr, dir), canvas)
+            draw_image(ix - 1, iy + 1, self.table_left.get((0, 255, 0, 255), dir), canvas)
+            draw_image(ix + 1, iy + 1, self.table_right.get((0, 0, 255, 255), dir), canvas)
+            draw_image(ix, iy, self.table_top.get((255, 0, 0, 255), dir), canvas)
 
         return canvas
 
