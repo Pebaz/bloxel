@@ -12,7 +12,7 @@ setup(
 	author='Samuel Wilder',
 	packages=['bloxel'],
 	install_requires=[
-		'Pillow==6.2.0',
+		'Pillow>=6.2.2',
 		'docopt==0.6.2'
 	],
 	entry_points={
