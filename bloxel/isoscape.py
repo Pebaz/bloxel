@@ -23,7 +23,10 @@ for x in range(MAX_TILES_AXIS):
             continue
 
         tint = int((glm.simplex((x, y, z)) + 1) / 2 * 255)
-        bloxels.append((x, y, z + tint // 16, 255, tint, tint, 255))
+
+        tint2 = int((glm.simplex((x, y)) + 1) / 2 * 255)
+
+        bloxels.append((x, y, z + tint // 16, 255, tint, tint, tint2))
 
 bloxels.sort(key=lambda b: b[0] - b[1] - b[2], reverse=True)
 
