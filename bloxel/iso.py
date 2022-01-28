@@ -153,7 +153,7 @@ class CLI:
             num_down(int): the number of inner textures down
 
         Return:
-            None if no output path is specified and the list of generated 
+            None if no output path is specified and the list of generated
             textures if a path was supplied.
         """
         iso = Iso(4)
@@ -218,7 +218,7 @@ class CLI:
             num_down(int): the number of inner textures down
 
         Return:
-            None if no output path is specified and the list of generated 
+            None if no output path is specified and the list of generated
             textures if a path was supplied.
         """
         iso = Iso(4)
@@ -237,7 +237,7 @@ class CLI:
             for x in range(num_across):
 
                 # In this case, x and y are obtained from the blockfile
-                
+
                 x_start = x * Iso.TEX_WIDTH
                 y_start = y * Iso.TEX_WIDTH
                 x_end = x_start + (Iso.TEX_WIDTH)
@@ -389,7 +389,7 @@ class CLI:
                     ]
                 out = iso.get_multipart_bloxel(i, xyzrgba_data)
                 iso.save(out, i, blockname, out_path)
-        
+
 
 class Iso:
     """
@@ -503,7 +503,7 @@ class Iso:
             front(Image): the image to use for drawing this side
             back(Image): the image to use for drawing this side
         """
-        
+
         up, down, left, right, front, back = self.rotate_sides(
             dir, up, down, left, right, front, back
         )
@@ -515,7 +515,7 @@ class Iso:
         draw_all_sides = any([
             # See if any alpha value is below 255
             any([i[1][3] < 255 for i in img.getcolors(100000)])
-            
+
             # For each texture
             for img in (up, down, left, right, front, back)
 
@@ -589,7 +589,7 @@ class Iso:
             x, y = self.coors.get(16 + x_pixel, 0,
                 -Iso.TEX_WIDTH - 7 - y_pixel)
             draw_image(x, y + 1, self.table_right.get(pxb, dir), canvas)
-            
+
         # Draw left side
         for x_pixel, y_pixel, coors in get_xy(*[Iso.TEX_WIDTH] * 2):
             pxl = left.getpixel(coors)
@@ -774,7 +774,7 @@ class Cornerstone:
         Return:
             Cornerstone image with pixels shaded for the given direction.
         """
-        
+
         if dir == Directions.NORTH:
             clr_left = Shade.get_shade(BloxelSides.left)
             clr_top = Shade.get_shade(BloxelSides.up)
@@ -814,6 +814,7 @@ class Cornerstone:
         img.putpixel((2, 0), clr_top)
         img.putpixel((1, 1), clr_top)
         img.putpixel((2, 1), clr_top)
+
         return tint_image(img, color)
 
     @staticmethod
@@ -1085,7 +1086,7 @@ class IsoCoors:
         Return:
             A 2-tuple with the x and y coordinate in isometric screenspace.
         """
-        return self[(x, y, z)]
+        return self[x, y, z]
 
     def seed_coordinates(self, grid=16):
         """
@@ -1102,7 +1103,7 @@ class IsoCoors:
         for x in range(grid):
             for y in range(grid):
                 for z in range(grid):
-                    tmp[(x, y, z)] = self.__get_pos_from_vec3(x, y, z)
+                    tmp[x, y, z] = self.__get_pos_from_vec3(x, y, z)
         self.coors = tmp
 
     @lru_cache(maxsize=None)
@@ -1117,7 +1118,7 @@ class IsoCoors:
 
         Return:
             A 2-tuple with the x and y coordinate in isometric screenspace.
-        """ 
+        """
         p25 = self.tile_size * 0.25
         p50 = self.tile_size * 0.50
         isox = x * p50 + y * p50
@@ -1177,10 +1178,10 @@ def draw_image(x, y, img1, img2):
     for y_pixel in range(img1.height):
         for x_pixel in range(img1.width):
             px = img1.getpixel((x_pixel, y_pixel))
-            
+
             if alpha and px[3] == 0:
                 continue
-            
+
             new_x = x + x_pixel
             new_y = y + y_pixel
 
@@ -1304,7 +1305,7 @@ def main(args=None):
             f'Perhaps you meant: {out_path.parent}'
         )
 
-    # Create every folder in the path if it does not exist 
+    # Create every folder in the path if it does not exist
     if not out_path.exists():
         out_path.mkdir(parents=True, exist_ok=True)
 
@@ -1334,7 +1335,7 @@ def main(args=None):
     elif result['--create-texture']:
         if not result['<alpha>']:
             result['<alpha>'] = 255
-        
+
         # We know the file does not exist. Create it
         p = Path(result['--create-texture'])
         p.parent.mkdir(parents=True, exist_ok=True)
